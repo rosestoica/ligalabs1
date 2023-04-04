@@ -1,0 +1,28 @@
+from typing import Annotated
+
+from fastapi import FastAPI, Body
+import uvicorn
+from pydantic import BaseModel
+
+app = FastAPI()
+
+class Item(BaseModel):
+    name: str
+    value :int
+
+
+
+@app.get("/mmm")
+async def root(x: int):
+    if x==5 :
+      return {"message": "Hello World"}
+
+
+@app.post("/password", response_model=Item)
+async def func(sir :Annotated[str, Body()],val: Annotated[int, Body()]):
+    return Item(name= sir, value= val)
+
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="127.0.0.1", port=8000)
